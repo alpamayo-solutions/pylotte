@@ -28,7 +28,7 @@ pip install pylotte
 ## 🛠 Usage
 
 ```python
-from pylotte import SignedPickle
+from pylotte.signed_pickle import SignedPickle
 
 # Initialize with RSA key paths
 signer = SignedPickle(public_key_path="public.pem", private_key_path="private.pem")
