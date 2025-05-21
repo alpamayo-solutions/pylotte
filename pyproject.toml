@@ -1,0 +1,62 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pylotte"
+version = "0.1"
+description = 'Package for signing and verifying pickle files'
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "Alpamayo", email = "info@alpamayo-solutions.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+dependencies = ["cryptography"]
+
+[project.optional-dependencies]
+dev = [
+  "pytest",
+  "ruff"
+]
+
+[project.urls]
+Documentation = "https://github.com/alpamayo-solutions/pylotte#readme"
+Issues = "https://github.com/alpamayo-solutions/pylotte/issues"
+Source = "https://github.com/alpamayo-solutions/pylotte"
+
+[tool.ruff]
+select = ["E", "F"]
+ignore = ["E402", "E501", "F403"]
+line-length = 110
+include = ["*.py", "**/pyproject.toml"]
+fixable = [
+  "A", "B", "C", "D", "E", "F", "G", "I", "N", "Q", "S", "T", "W",
+  "ANN", "ARG", "BLE", "COM", "DJ", "DTZ", "EM", "ERA", "EXE", "FBT",
+  "ICN", "INP", "ISC", "NPY", "PD", "PGH", "PIE", "PL", "PT", "PTH",
+  "PYI", "RET", "RSE", "RUF", "SIM", "SLF", "TCH", "TID", "TRY", "UP", "YTT"
+]
+unfixable = []
+exclude = [
+  ".bzr", ".direnv", ".eggs", ".git", ".hg", ".mypy_cache", ".nox", ".pants.d",
+  ".pytype", ".ruff_cache", ".svn", ".tox", ".venv", "__pypackages__",
+  "_build", "buck-out", "build", "dist", "node_modules", "venv",
+  "migrations", "batch_create_virtual_sensors.py", "archive"
+]
+per-file-ignores = {}
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+target-version = "py310"
+
+[tool.ruff.mccabe]
+max-complexity = 10
+
+# Bandit: ignore B411 (assert used intentionally)
