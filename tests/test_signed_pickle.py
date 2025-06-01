@@ -88,12 +88,6 @@ def test_tampered_pickle_file_raises(rsa_keys):
 
 @pytest.mark.optional
 def test_dill_serialization(rsa_keys):
-    # Try importing dill first to check if it's available
-    try:
-        import dill
-    except ImportError:
-        pytest.skip("dill is not installed. Install it with: pip install pylotte[dill]")
-
     pub_path, priv_path = rsa_keys
     sp = SignedPickle(pub_path, priv_path, serializer="dill")
 
