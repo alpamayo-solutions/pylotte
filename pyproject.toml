@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pylotte"
-version = "0.1"
+version = "0.2"
 description = 'Package for signing and verifying pickle files'
 readme = "README.md"
 requires-python = ">=3.9"
