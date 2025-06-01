@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   testing:
@@ -17,17 +17,17 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'  # Adjust if needed
+          python-version: "3.11" # Adjust if needed
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -e .[dev]
+          pip install -e .[dev,dill]
 
       - name: Run Ruff Linter
         run: |
           ruff check .
 
-      - name: Run tests 
+      - name: Run tests
         run: |
-          pytest 
+          pytest

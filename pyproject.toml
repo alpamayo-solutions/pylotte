@@ -28,11 +28,19 @@ dev = [
   "pytest",
   "ruff"
 ]
+dill = [
+  "dill"
+]
 
 [project.urls]
 Documentation = "https://github.com/alpamayo-solutions/pylotte#readme"
 Issues = "https://github.com/alpamayo-solutions/pylotte/issues"
 Source = "https://github.com/alpamayo-solutions/pylotte"
+
+[tool.pytest.ini_options]
+markers = [
+    "optional: marks tests that require optional dependencies"
+]
 
 [tool.ruff]
 select = ["E", "F"]
