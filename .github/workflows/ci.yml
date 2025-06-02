@@ -3,6 +3,8 @@ name: CI
 on:
   push:
     branches: [main]
+    tags:
+      - "v*"
   pull_request:
     branches: [main]
 
@@ -17,7 +19,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.11" # Adjust if needed
+          python-version: "3.11"
 
       - name: Install dependencies
         run: |
@@ -31,3 +33,35 @@ jobs:
       - name: Run tests
         run: |
           pytest
+
+  build-and-publish:
+    needs: testing
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install Hatch and Twine
+        run: |
+          pip install --upgrade pip
+          pip install hatch twine
+
+      - name: Build with Hatch
+        run: hatch build
+
+      - name: Check the built package
+        run: twine check dist/*
+
+      - name: Publish to TestPyPI
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        run: |
+          twine upload --repository-url https://pypi.org/legacy/ dist/*
