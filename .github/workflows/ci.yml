@@ -59,7 +59,7 @@ jobs:
       - name: Check the built package
         run: twine check dist/*
 
-      - name: Publish to TestPyPI
+      - name: Publish to PyPI
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
