@@ -12,7 +12,7 @@
 - ✅ Verify signatures with the corresponding **public key**
 - 🛡️ Prevents tampering and ensures data authenticity
 - 📦 Simple and minimal interface
-- 🔄 Support for both `pickle` and `dill` serialization
+- 🔄 Pluggable serializer: use `pickle`, `dill`, `cloudpickle`, or any `dump`/`load` API
 
 ---
 
@@ -51,36 +51,50 @@ loader = SignedPickle(public_key_path="public.pem")
 data_loaded = loader.safe_load("data.pkl", "data.sig")
 ```
 
-### Advanced Usage with Dill
+### Advanced Usage with a Custom Serializer
 
 ```python
 from pylotte.signed_pickle import SignedPickle
+import cloudpickle  # or dill, or any module with dump/load
 
-# Initialize with dill serializer
 signer = SignedPickle(
     public_key_path="public.pem",
     private_key_path="private.pem",
-    serializer="dill"  # Use dill instead of pickle
+    serializer=cloudpickle,
 )
 
-# Complex data with lambda functions
 data = {
     "name": "bob",
     "process": lambda x: x * 2,
-    "nested": {
-        "func": lambda y: y + 1
-    }
+    "nested": {"func": lambda y: y + 1},
 }
 
-# Save and sign
 signer.dump_and_sign(data, "data.pkl", "data.sig")
 
-# Load and verify
-loader = SignedPickle(public_key_path="public.pem", serializer="dill")
+loader = SignedPickle(public_key_path="public.pem", serializer=cloudpickle)
 data_loaded = loader.safe_load("data.pkl", "data.sig")
 
-# Use the loaded lambda functions
 result = data_loaded["process"](5)  # Returns 10
+```
+
+### Using a Custom Serializer (e.g., cloudpickle)
+
+```python
+from pylotte.signed_pickle import SignedPickle
+import cloudpickle
+
+# Pass any object that provides dump/load
+signer = SignedPickle(
+    public_key_path="public.pem",
+    private_key_path="private.pem",
+    serializer=cloudpickle,
+)
+
+data = {"callable": lambda x: x + 3}
+signer.dump_and_sign(data, "data.pkl", "data.sig")
+
+loader = SignedPickle(public_key_path="public.pem", serializer=cloudpickle)
+loaded = loader.safe_load("data.pkl", "data.sig")
 ```
 
 ---
@@ -89,7 +103,7 @@ result = data_loaded["process"](5)  # Returns 10
 
 - `dump_and_sign()`:
 
-  - Serializes your data (using pickle or dill) and saves it to a file.
+  - Serializes your data using the provided serializer (defaults to pickle) and saves it to a file.
   - Signs the file contents using an RSA private key.
   - Stores the signature in a separate `.sig` file.
 
@@ -104,7 +118,6 @@ result = data_loaded["process"](5)  # Returns 10
 
 - Python 3.9+
 - [`cryptography`](https://pypi.org/project/cryptography/)
-- [`dill`](https://pypi.org/project/dill/) (optional, for advanced serialization)
 
 ---
 
