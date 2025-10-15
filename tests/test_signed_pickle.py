@@ -1,7 +1,6 @@
 import os
 import tempfile
 import pytest
-from unittest.mock import patch
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives import serialization
 
