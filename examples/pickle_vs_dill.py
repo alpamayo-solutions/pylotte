@@ -58,8 +58,9 @@ def dill_example():
     print("\n=== Dill Example ===")
     
     try:
+        import dill
         # Initialize with dill
-        signer = SignedPickle("public.pem", "private.pem", serializer="dill")
+        signer = SignedPickle("public.pem", "private.pem", serializer=dill)
         
         # Complex data that only dill can handle
         data = {
@@ -76,8 +77,12 @@ def dill_example():
         signer.dump_and_sign(data, "data_dill.pkl", "data_dill.sig")
         print("✓ Data saved and signed with dill")
         
+        # Read metadata without loading
+        loader = SignedPickle("public.pem", serializer=dill)
+        meta = loader.read_metadata("data_dill.pkl")
+        print(f"Metadata: {meta}")
+        
         # Load and verify
-        loader = SignedPickle("public.pem", serializer="dill")
         loaded_data = loader.safe_load("data_dill.pkl", "data_dill.sig")
         print("✓ Data loaded and verified")
         

@@ -28,9 +28,6 @@ dev = [
   "pytest",
   "ruff"
 ]
-dill = [
-  "dill"
-]
 
 [project.urls]
 Documentation = "https://github.com/alpamayo-solutions/pylotte#readme"
