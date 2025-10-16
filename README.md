@@ -23,9 +23,6 @@ Install directly from PyPI:
 ```bash
 # Basic installation with pickle support
 pip install pylotte
-
-# With dill support for advanced serialization
-pip install pylotte[dill]
 ```
 
 ---
